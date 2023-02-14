@@ -21,4 +21,5 @@ urlpatterns = [
     path('balticwave/', include('balticwave.urls')),
     path('', RedirectView.as_view(url='balticwave/', permanent=True)),
     path('admin/', admin.site.urls),
+    path('tinymce/', include('tinymce.urls')),
 ]

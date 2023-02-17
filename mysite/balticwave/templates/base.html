@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel=stylesheet href="{% static 'css/style.css' %}">
+    {%block title %}<title>BalticWave</title>{% endblock %}
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>BalticWave</h1>
+<h2>Welcome!</h2>
+<hr>
+<ul>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="#">All current products</a></li>
+    <li><a href="#">All current services</a></li>
+</ul>
+{% block content %}{% endblock %}
+</body>
+</html>

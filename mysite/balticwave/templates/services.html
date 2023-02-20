@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+{% for service in services %}
+<ul>
+    <li><a href="{{ service.id }}">{{ service }}</a></li>
+</ul>
+{% endfor %}
+{% endblock %}

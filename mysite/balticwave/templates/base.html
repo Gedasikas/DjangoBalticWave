@@ -13,8 +13,9 @@
 <ul>
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'products' %}">All current products</a></li>
-    <li><a href="#">All current services</a></li>
+    <li><a href="{% url 'services' %}">All current services</a></li>
 </ul>
+<hr>
 {% block content %}{% endblock %}
 </body>
 </html>

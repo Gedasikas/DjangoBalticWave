@@ -2,7 +2,7 @@
 {% block content %}
 {% for product in products %}
 <ul>
-    <li>{{ product }}</li>
+    <li><a href="{{ product.id }}">{{ product }}</a></li>
 </ul>
 {% endfor %}
 {% endblock %}

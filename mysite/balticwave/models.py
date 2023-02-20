@@ -1,7 +1,10 @@
 from django.db import models
 from tinymce.models import HTMLField
+from django.contrib.auth.models import User
+from datetime import date
 class Sailor(models.Model):
     nickname = models.CharField('Nickname', max_length=50)
+    sailor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     birth_day = models.DateField('Date of birth')
 
     def __str__(self):
@@ -10,6 +13,7 @@ class Sailor(models.Model):
 class Product(models.Model):
     product_name = models.CharField('Product name', max_length=200)
     seller = models.ForeignKey('Sailor', on_delete=models.CASCADE, blank=True)
+    product_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.FloatField('Price', null=True, blank=True, default=None)
     description = HTMLField()
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
@@ -33,6 +37,7 @@ class Product(models.Model):
 class Service(models.Model):
     service_name = models.CharField('Service name', max_length=200)
     seller = models.ForeignKey('Sailor', on_delete=models.CASCADE, blank=True)
+    service_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     description = HTMLField()
     type = models.ManyToManyField('ServiceType')
     service_thumbnail = models.ImageField('Thumbnail', upload_to='service_thumbnails', null=True)

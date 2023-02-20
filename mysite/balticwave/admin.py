@@ -3,13 +3,13 @@ from .models import Sailor, Product, Service, ServiceType, ProductType
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_name', 'seller', 'insDate')
+    list_display = ('product_name', 'seller', 'product_seller', 'insDate',)
     list_filter = ('status', 'type')
     search_fields = ('product_name', 'seller')
 
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('service_name', 'seller')
+    list_display = ('service_name', 'seller', 'service_seller')
     list_filter = ('type',)
     search_fields = ('service_name', 'seller')
 

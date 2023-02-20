@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic
 from .models import Product, Service
+from django.db.models import Q
 def home(request):
     return render(request, 'home.html')
 
@@ -23,3 +24,10 @@ class ServiceDetailView(generic.DetailView):
     model = Service
     template_name = 'service_detail.html'
     context_object_name = 'service'
+
+def search(request):
+    query = request.GET.get('query')
+    search_results = Product.objects.filter(Q(product_name__icontains=query) | Q(description__icontains=query))
+    return render(request, 'search.html', {'products': search_results, 'query': query})
+
+

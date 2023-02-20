@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Results by "{{query}}" search:</h1>
+<br>
+{% if products %}
+<ul>
+    {% for product in products %}
+    <li>
+        <a href="{{ product.id }}">{{ product }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no products related to the search name "{{query}}". </p>
+{% endif %}
+
+{% endblock %}

@@ -1,8 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 {% for service in services %}
 <ul>
+    {% if service.service_thumbnail %}
+    <img src="{{ service.service_thumbnail.url }}">
+    {% else %}
+    <img src="{% static 'img/no-image.png' %}">
+    {% endif %}
     <li><a href="{{ service.id }}">{{ service }}</a></li>
 </ul>
+<hr>
 {% endfor %}
 {% endblock %}

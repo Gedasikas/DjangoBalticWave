@@ -14,6 +14,7 @@ class Product(models.Model):
     description = HTMLField()
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
     type = models.ManyToManyField('ProductType')
+    product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True)
     LOAN_STATUS = (
         ('a', 'Available'),
         ('r', 'Reserved'),
@@ -34,6 +35,7 @@ class Service(models.Model):
     seller = models.ForeignKey('Sailor', on_delete=models.CASCADE, blank=True)
     description = HTMLField()
     type = models.ManyToManyField('ServiceType')
+    service_thumbnail = models.ImageField('Thumbnail', upload_to='service_thumbnails', null=True)
     def __str__(self):
         return (f'{self.service_name} | {self.seller}')
 

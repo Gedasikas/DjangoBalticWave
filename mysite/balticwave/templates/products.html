@@ -1,8 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 {% for product in products %}
 <ul>
+    {% if product.product_thumbnail %}
+    <img src="{{ product.product_thumbnail.url }}">
+    {% else %}
+    <img src="{% static 'img/no-image.png' %}">
+    {% endif %}
     <li><a href="{{ product.id }}">{{ product }}</a></li>
 </ul>
+<hr>
 {% endfor %}
 {% endblock %}

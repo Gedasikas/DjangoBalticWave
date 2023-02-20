@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Product, Service
 from django.db.models import Q
+from django.contrib.auth.models import User
+from datetime import date
 def home(request):
     return render(request, 'home.html')
 

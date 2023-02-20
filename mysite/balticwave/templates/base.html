@@ -14,12 +14,21 @@
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'products' %}">All current products</a></li>
     <li><a href="{% url 'services' %}">All current services</a></li>
-    <li>
-        <form action="{% url 'search' %}" method="get">
-            <input name="query" type="text" placeholder="Search">
-        </form>
-    </li>
+<hr>
+    {% if user.is_authenticated %}
+    <li><a href="#">
+        {{ user.get_username }}</a></li>
+    <li><a href="#">My adverts</a></li>
+    <li><a href="{% url 'logout'%}?next=/balticwave">Log out</a></li>
+    {% else %}
+    <li><a href="{% url 'login'%}?next={{request.path}}">Log in</a></li>
+    <li><a href="#">Register</a></li>
+    {% endif %}
 </ul>
+<form action="{% url 'search' %}" method="get">
+    <input name="query" type="text" placeholder="Search">
+</form>
+
 <hr>
 {% block content %}{% endblock %}
 </body>

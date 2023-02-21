@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>My itmes</h1>
+{% if myproducts %}
+<ul>
+    {% for product in myproducts %}
+    <li>
+        <a href="{% url 'product-detail' product.pk %}">{{ product }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% else %}
+<p>You have no items for sale at the moment.</p>
+{% endif %}
+<hr>
+
+{% endblock %}

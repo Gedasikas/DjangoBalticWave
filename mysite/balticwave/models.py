@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from datetime import date
 class Sailor(models.Model):
     nickname = models.CharField('Nickname', max_length=50)
-    sailor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    birth_day = models.DateField('Date of birth')
+    sailor = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(default="profile_pics/default.png", upload_to="profile_pics")
 
     def __str__(self):
         return self.nickname
@@ -15,10 +15,10 @@ class Product(models.Model):
     seller = models.ForeignKey('Sailor', on_delete=models.CASCADE, blank=True)
     product_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.FloatField('Price', null=True, blank=True, default=None)
-    description = HTMLField()
+    description = HTMLField(default='No description')
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
     type = models.ManyToManyField('ProductType')
-    product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True)
+    product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True, blank=True)
     LOAN_STATUS = (
         ('a', 'Available'),
         ('r', 'Reserved'),
@@ -38,9 +38,9 @@ class Service(models.Model):
     service_name = models.CharField('Service name', max_length=200)
     seller = models.ForeignKey('Sailor', on_delete=models.CASCADE, blank=True)
     service_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    description = HTMLField()
+    description = HTMLField(default='No description')
     type = models.ManyToManyField('ServiceType')
-    service_thumbnail = models.ImageField('Thumbnail', upload_to='service_thumbnails', null=True)
+    service_thumbnail = models.ImageField('Thumbnail', upload_to='service_thumbnails', null=True, blank=True)
     def __str__(self):
         return (f'{self.service_name} | {self.seller}')
 

@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'balticwave',
+    'balticwave.apps.BalticwaveConfig',
     'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',

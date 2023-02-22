@@ -14,7 +14,7 @@
     <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="{% url 'products' %}">All current products</a></li>
     <li><a href="{% url 'services' %}">All current services</a></li>
-<hr>
+    <hr>
     {% if user.is_authenticated %}
     <li>Currently logged in as: <a href="{% url 'profile' %}">{{ user.get_username }}</a></li>
     <li><a href="#">My adverts</a></li>

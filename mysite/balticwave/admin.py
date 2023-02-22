@@ -1,17 +1,17 @@
 from django.contrib import admin
-from .models import Sailor, Product, Service, ServiceType, ProductType
+from .models import Profile, Product, Service, ServiceType, ProductType
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_name', 'seller', 'insDate',)
+    list_display = ('product_name', 'insDate',)
     list_filter = ('status', 'type')
-    search_fields = ('product_name', 'seller')
+    search_fields = ('product_name',)
 
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('service_name', 'seller')
+    list_display = ('service_name',)
     list_filter = ('type',)
-    search_fields = ('service_name', 'seller')
+    search_fields = ('service_name', )
 
 
 class ProductInline(admin.TabularInline):
@@ -28,11 +28,8 @@ class ServiceInline(admin.TabularInline):
     extra = 0
 
 
-class SailorAdmin(admin.ModelAdmin):
-    inlines = [(ProductInline), (ServiceInline)]
 
-
-admin.site.register(Sailor, SailorAdmin)
+admin.site.register(Profile)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceType)

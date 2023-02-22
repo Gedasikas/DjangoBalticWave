@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+{% if services %}
 {% for service in services %}
 <ul>
     {% if service.service_thumbnail %}
@@ -10,6 +11,9 @@
     {% endif %}
     <li><a href="{{ service.id }}">{{ service }}</a></li>
 </ul>
-<hr>
 {% endfor %}
+<hr>
+{% else %}
+<p>There are no providing services at the moment.</p>
+{% endif %}
 {% endblock %}

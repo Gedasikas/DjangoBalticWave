@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+{% if products %}
 {% for product in products %}
 <ul>
     {% if product.product_thumbnail %}
@@ -10,6 +11,9 @@
     {% endif %}
     <li><a href="{{ product.id }}">{{ product }}</a></li>
 </ul>
-<hr>
 {% endfor %}
+<hr>
+{% else %}
+<p>There are no listed items at the moment.</p>
+{% endif %}
 {% endblock %}

@@ -3,12 +3,14 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from .models import Product, Service
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
+from django.views.generic import DetailView, CreateView
+from .forms import UserProductCreateUpdateForm
 def home(request):
     return render(request, 'home.html')
 
@@ -28,6 +30,47 @@ class SellerProductsListView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'myproducts'
     def get_queryset(self):
         return Product.objects.filter(product_seller=self.request.user)
+
+class SellerProductDetailView(LoginRequiredMixin, DetailView):
+    model = Product
+    template_name = 'my_product.html'
+    context_object_name = 'product'
+
+class ProductByUserCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Product
+    fields = ['product_name', 'price', 'description', 'type', 'product_thumbnail', 'status']
+    success_url = '/balticwave/myproducts/'
+    template_name = 'user_product_form.html'
+    def form_valid(self, form):
+        form.instance.product_seller = self.request.user
+        return super().form_valid(form)
+
+class ProductByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Product
+    fields = ['product_name', 'price', 'description', 'type', 'product_thumbnail', 'status']
+    success_url = '/balticwave/myproducts/'
+    template_name = 'user_product_form.html'
+
+    # def get_success_url(self):
+    #     return reverse('myproducts/<int:pk>', kwargs={"pk": self.object.id})
+    def form_valid(self, form):
+        form.instance.product_seller = self.request.user
+        return super().form_valid(form)
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.product_seller
+
+class ProductByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Product
+    success_url = '/balticwave/myproducts/'
+    template_name = 'user_product_delete.html'
+    context_object_name = 'product'
+
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.product_seller
+
+
 
 class ServiceListView(generic.ListView):
     model = Service

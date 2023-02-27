@@ -1,4 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <p>Hello Hello</p>
+<form action="{% url 'search' %}" method="get">
+    <input name="query" type="text" placeholder="Search">
+</form>
 {% endblock %}

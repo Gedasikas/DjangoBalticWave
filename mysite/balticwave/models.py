@@ -2,23 +2,10 @@ from django.db import models
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 from PIL import Image
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_pic = models.ImageField(default="profile_pics/default.png", upload_to="profile_pics")
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        img = Image.open(self.profile_pic.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.profile_pic.path)
-    def __str__(self):
-        return f'{self.user.username}'
 
 class Product(models.Model):
     product_name = models.CharField('Product name', max_length=200)
-    product_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    product_seller = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.FloatField('Price', null=True, blank=True, default=None)
     description = HTMLField(default='No description')
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
@@ -37,8 +24,9 @@ class Product(models.Model):
         default='a',
         help_text='Status',
     )
+
     def __str__(self):
-        return (f'{self.product_name} | {self.product_seller.username}')
+        return (f'{self.product_name}')
 class Service(models.Model):
     service_name = models.CharField('Service name', max_length=200)
     service_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -57,6 +45,20 @@ class ProductType(models.Model):
     product_type_name = models.CharField('Type', max_length=50)
     def __str__(self):
         return self.product_type_name
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(default="profile_pics/default.png", upload_to="profile_pics")
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.profile_pic.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.profile_pic.path)
+    def __str__(self):
+        return f'{self.user.username}'
 
 
 

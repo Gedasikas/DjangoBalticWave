@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{{ product }}
+<a href="{% url 'my-update-product' product.id %}">Update</a>
+<a href="{% url 'my-delete-product' product.id %}">Delete</a>
+{% endblock %}

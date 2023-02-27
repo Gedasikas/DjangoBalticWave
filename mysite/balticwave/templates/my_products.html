@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>My itmes</h1>
+<a href="{% url 'my-new-product' %}">Add new</a>
 {% if myproducts %}
 <ul>
     {% for product in myproducts %}
     <li>
-        <a href="{% url 'product-detail' product.pk %}">{{ product }}</a>
+        <a href="{{ product.pk }}">{{ product }}</a>
     </li>
     {% endfor %}
 </ul>

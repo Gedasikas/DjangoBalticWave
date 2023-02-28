@@ -20,3 +20,4 @@ class UserProductCreateUpdateForm(forms.ModelForm):
         model = Product
         fields = ['product_name', 'price', 'description', 'type', 'product_thumbnail', 'status' ]
         widgets = {'product_seller': forms.HiddenInput(), 'insDate': DateInput()}
+

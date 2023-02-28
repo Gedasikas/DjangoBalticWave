@@ -11,13 +11,27 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.views.generic import DetailView, CreateView
 from .forms import UserProductCreateUpdateForm
+from .filters import ProductFilter
+
 def home(request):
     return render(request, 'home.html')
 
+
 class ProductListView(generic.ListView):
-    model = Product
+    queryset = Product.objects.all()
+    paginate_by = 1
     template_name = 'products.html'
     context_object_name = 'products'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = ProductFilter(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.filterset.form
+        return context
+
 
 class ProductDetailView(generic.DetailView):
     model = Product
@@ -93,6 +107,8 @@ def search(request):
     query = request.GET.get('query')
     search_results = Product.objects.filter(Q(product_name__icontains=query) | Q(description__icontains=query))
     return render(request, 'search.html', {'products': search_results, 'query': query})
+
+
 
 @csrf_protect
 def register(request):

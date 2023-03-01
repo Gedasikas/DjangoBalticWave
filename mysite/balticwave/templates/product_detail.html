@@ -2,4 +2,17 @@
 {% load static %}
 {% block content %}
 {{ product }}
+{% if user.is_authenticated %}
+  <form action="{% url 'product_like' object.id %}" method="POST">
+    {% csrf_token %}
+    {% if post_is_liked %}
+    <button type="submit" name="blogpost_id" value="{{product.id}}">Unlike</button>
+    {% else %}
+    <button type="submit" name="blogpost_id" value="{{product.id}}">Like</button>
+    {% endif %}
+  </form>
+{% else %}
+  <a href="{% url 'login' %}?next={{request.path}}">Log in to like this item!</a><br>
+{% endif %}
+<strong>{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
 {% endblock %}

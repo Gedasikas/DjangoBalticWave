@@ -6,11 +6,12 @@ from PIL import Image
 class Product(models.Model):
     product_name = models.CharField('Product name', max_length=200)
     product_seller = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True)
-    price = models.FloatField('Price', null=True, blank=True, default=None)
+    price = models.FloatField('Price', null=True, blank=True, default=0)
     description = HTMLField(default='No description')
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
     type = models.ManyToManyField('ProductType')
     product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True, blank=True)
+    likes = models.ManyToManyField(User, related_name='blogpost_like')
     LOAN_STATUS = (
         ('a', 'Available'),
         ('r', 'Reserved'),
@@ -24,6 +25,9 @@ class Product(models.Model):
         default='a',
         help_text='Status',
     )
+
+    def number_of_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return (f'{self.product_name}')

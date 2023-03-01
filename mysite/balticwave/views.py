@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import generic
 from .models import Product, Service
@@ -9,9 +9,11 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
+from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, CreateView
 from .forms import UserProductCreateUpdateForm
 from .filters import ProductFilter
+from django.urls import reverse
 
 def home(request):
     return render(request, 'home.html')
@@ -37,6 +39,17 @@ class ProductDetailView(generic.DetailView):
     model = Product
     template_name = 'product_detail.html'
     context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+
+        likes_connected = get_object_or_404(Product, id=self.kwargs['pk'])
+        liked = False
+        if likes_connected.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        data['number_of_likes'] = likes_connected.number_of_likes()
+        data['post_is_liked'] = liked
+        return data
 
 class SellerProductsListView(LoginRequiredMixin, generic.ListView):
     Model = Product
@@ -84,6 +97,14 @@ class ProductByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.D
         product = self.get_object()
         return self.request.user == product.product_seller
 
+def product_like(request, pk):
+    post = get_object_or_404(Product, id=request.POST.get('blogpost_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('product-detail', args=[str(pk)]))
+
 
 
 class ServiceListView(generic.ListView):
@@ -106,7 +127,8 @@ class SellerServiceListView(LoginRequiredMixin, generic.ListView):
 def search(request):
     query = request.GET.get('query')
     search_results = Product.objects.filter(Q(product_name__icontains=query) | Q(description__icontains=query))
-    return render(request, 'search.html', {'products': search_results, 'query': query})
+    search_results2 = Service.objects.filter(Q(service_name__icontains=query) | Q(description__icontains=query))
+    return render(request, 'search.html', {'products': search_results, 'services': search_results2, 'query': query})
 
 
 

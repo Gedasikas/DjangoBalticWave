@@ -1,13 +1,16 @@
 {% extends "base.html" %}
-
 {% block content %}
 <h1>Results by "{{query}}" search:</h1>
 <br>
+<form action="{% url 'search' %}" method="get">
+    <input name="query" type="text" placeholder="Search">
+</form>
+<h3>Found items for sale:</h3>
 {% if products %}
 <ul>
     {% for product in products %}
     <li>
-        <a href="{{ product.id }}">{{ product }}</a>
+        <a href="{% url 'product-detail' product.pk %}">{{ product }}</a>
     </li>
     {% endfor %}
 </ul>
@@ -15,4 +18,16 @@
 <p>There are no products related to the search name "{{query}}". </p>
 {% endif %}
 
+<h3>Found services:</h3>
+{% if services %}
+<ul>
+    {% for service in services %}
+    <li>
+        <a href="{% url 'service-detail'  service.pk %}">{{ service }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no services related to the search name "{{query}}". </p>
+{% endif %}
 {% endblock %}

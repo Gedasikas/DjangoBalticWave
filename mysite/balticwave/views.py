@@ -21,7 +21,7 @@ def home(request):
 
 class ProductListView(generic.ListView):
     queryset = Product.objects.all()
-    paginate_by = 1
+    paginate_by = 10
     template_name = 'products.html'
     context_object_name = 'products'
 

@@ -12,25 +12,48 @@ class Product(models.Model):
     type = models.ManyToManyField('ProductType')
     product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='blogpost_like')
+    CITY_CHOICES = [
+        ('Klaipėda county', (
+            ('KLP', 'Klaipėda'),
+            ('PL', 'Palanga'),
+            ('NID', 'Nida'),
+        )
+         ),
+        ('Kaunas county', (
+            ('KUN', 'Kaunas'),
+            ('JON', 'Jonava'),
+            ('KĖD', 'Kėdainiai')
+        )
+         ),
+        ('Vilnius county', (
+            ('VIL', 'Vilnius'),
+            ('UKM', 'Ukmergė'),
+            ('ELE', 'Elektrėnai'),
+
+        )
+         ),
+        ('Šiauliai county', (
+            ('ŠL', 'Šiauliai'),
+            ('RAD', 'Radviliškis'),
+            ('NJA', 'Naujoji Akmenė'),
+        )
+         ),
+        ('UN', 'Undefined'),
+    ]
+
     LOAN_STATUS = (
         ('a', 'Available'),
         ('r', 'Reserved'),
         ('t', 'Sold'),
     )
 
-    status = models.CharField(
-        max_length=1,
-        choices=LOAN_STATUS,
-        blank=True,
-        default='a',
-        help_text='Status',
-    )
-
+    status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='a', help_text='Status',)
+    city = models.CharField(max_length=3, choices=CITY_CHOICES, help_text='City', default='UN')
     def number_of_likes(self):
         return self.likes.count()
 
     def __str__(self):
-        return (f'{self.product_name}')
+        return (f'{self.product_name} | {self.product_seller}')
 class Service(models.Model):
     service_name = models.CharField('Service name', max_length=200)
     service_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -49,6 +72,7 @@ class ProductType(models.Model):
     product_type_name = models.CharField('Type', max_length=50)
     def __str__(self):
         return self.product_type_name
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

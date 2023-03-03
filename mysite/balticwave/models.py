@@ -49,6 +49,10 @@ class Product(models.Model):
 
     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='a', help_text='Status',)
     city = models.CharField(max_length=3, choices=CITY_CHOICES, help_text='City', default='UN')
+
+    def display_type(self):
+        return ', '.join(type.product_type_name for type in self.type.all()[:3])
+
     def number_of_likes(self):
         return self.likes.count()
 

@@ -3,7 +3,7 @@ from .models import Profile, Product, Service, ServiceType, ProductType
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_name', 'insDate',)
+    list_display = ('product_name', 'insDate', 'display_type',)
     list_filter = ('status', 'type')
     search_fields = ('product_name',)
 

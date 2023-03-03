@@ -16,7 +16,13 @@ from .filters import ProductFilter
 from django.urls import reverse
 
 def home(request):
-    return render(request, 'home.html')
+    latest_prod = Product.objects.all().order_by('-id')[:5]
+    context = {
+    'latest_prod': latest_prod,
+    }
+    return render(request, 'home.html', context=context)
+
+
 
 
 class ProductListView(generic.ListView):

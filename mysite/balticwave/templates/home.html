@@ -1,7 +1,23 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-<p>Hello Hello</p>
-<form action="{% url 'search' %}" method="get">
-    <input name="query" type="text" placeholder="Search">
-</form>
+<div class="row">
+    <div class="leftcolumn">
+        <h3>Search for items and services!</h3>
+        <form action="{% url 'search' %}" method="get" class="search-bar">
+            <input name="query" type="text" placeholder="Search...">
+            <button type="submit"><img src="{% static 'img/search.png' %}"></button>
+        </form>
+    </div>
+</div>
+<h3>Latest items:</h3>
+{% for latest_prod in latest_prod %}
+<ul>
+    <li><a href="{% url 'product-detail' latest_prod.id %}"> {{ latest_prod }}</a></li>
+</ul>
+<hr>
+{% endfor %}
+
+
+
 {% endblock %}

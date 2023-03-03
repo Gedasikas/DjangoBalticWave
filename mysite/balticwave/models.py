@@ -7,6 +7,7 @@ class Product(models.Model):
     product_name = models.CharField('Product name', max_length=200)
     product_seller = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.FloatField('Price', null=True, blank=True, default=0)
+    short_description = HTMLField('Short description', max_length=200)
     description = HTMLField(default='No description')
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
     type = models.ManyToManyField('ProductType')
@@ -58,6 +59,9 @@ class Product(models.Model):
 
     def __str__(self):
         return (f'{self.product_name} | {self.product_seller}')
+
+class ProductImages(models.Model):
+
 class Service(models.Model):
     service_name = models.CharField('Service name', max_length=200)
     service_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)

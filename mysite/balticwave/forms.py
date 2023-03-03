@@ -18,6 +18,6 @@ class ProfileUpdateForm(forms.ModelForm):
 class UserProductCreateUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['product_name', 'price', 'description', 'type', 'product_thumbnail', 'status' ]
+        fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'city', 'status']
         widgets = {'product_seller': forms.HiddenInput(), 'insDate': DateInput()}
 

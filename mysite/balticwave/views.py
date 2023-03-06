@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import generic
+from django.views.generic.edit import FormMixin
+
 from .models import Product, Service
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -8,10 +10,9 @@ from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserUpdateForm, ProfileUpdateForm
-from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, CreateView
-from .forms import UserProductCreateUpdateForm
+from .forms import UserUpdateForm, ProfileUpdateForm, ProductReviewForm
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import DetailView
 from .filters import ProductFilter
 from django.urls import reverse
 
@@ -39,10 +40,28 @@ class ProductListView(generic.ListView):
         return context
 
 
-class ProductDetailView(generic.DetailView):
+class ProductDetailView(FormMixin, generic.DetailView):
     model = Product
     template_name = 'product_detail.html'
     context_object_name = 'product'
+    form_class = ProductReviewForm
+
+    def get_success_url(self):
+        return reverse('product-detail', kwargs={'pk': self.object.id})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.product = self.object
+        form.instance.reviewer = self.request.user
+        form.save()
+        return super(ProductDetailView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)

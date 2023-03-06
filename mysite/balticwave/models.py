@@ -81,6 +81,14 @@ class ProductType(models.Model):
     def __str__(self):
         return self.product_type_name
 
+class ProductReview(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, blank=True, related_name='productreview')
+    reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    content = models.TextField('Review', max_length=2000)
+
+    class Meta:
+        ordering = ['-date_created']
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

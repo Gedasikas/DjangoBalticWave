@@ -12,6 +12,7 @@ class Product(models.Model):
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
     type = models.ManyToManyField('ProductType')
     product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True, blank=True)
+    image1 = models.ImageField('Image 1', upload_to='product_images', null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='blogpost_like')
     CITY_CHOICES = [
         ('Klaipėda county', (
@@ -59,8 +60,6 @@ class Product(models.Model):
 
     def __str__(self):
         return (f'{self.product_name} | {self.product_seller}')
-
-class ProductImages(models.Model):
 
 class Service(models.Model):
     service_name = models.CharField('Service name', max_length=200)

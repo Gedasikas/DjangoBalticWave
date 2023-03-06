@@ -13,7 +13,7 @@
 <h3>Latest items:</h3>
 {% for latest_prod in latest_prod %}
 <ul>
-    <li><a href="{% url 'product-detail' latest_prod.id %}"> {{ latest_prod }}</a></li>
+    <li><a href="{% url 'product-detail' latest_prod.id %}"> {{ latest_prod }} | {{ latest_prod.insDate }} </a></li>
 </ul>
 <hr>
 {% endfor %}

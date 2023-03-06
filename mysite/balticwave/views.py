@@ -109,7 +109,15 @@ def product_like(request, pk):
         post.likes.add(request.user)
     return HttpResponseRedirect(reverse('product-detail', args=[str(pk)]))
 
-
+@login_required
+def advert_list(request):
+    username = request.user.username
+    product_list = Product.objects.filter(product_seller__username=username)
+    service_list = Service.objects.filter(service_seller__username=username)
+    context = {'product_list': product_list,
+               'service_list': service_list,
+    }
+    return render(request, 'advert_list.html', context)
 
 class ServiceListView(generic.ListView):
     model = Service

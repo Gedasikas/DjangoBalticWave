@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h3>Products</h3>
+{% if product_list %}
+<ul>
+    {% for product in product_list %}
+    <li>
+        <a href="{% url 'my-update-product' product.id %}">{{ product }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no products.</p>
+{% endif %}
+
+<h3>Services:</h3>
+{% if service_list %}
+<ul>
+    {% for service in service_list %}
+    <li>
+        <a href="{% url 'service-detail'  service.pk %}">{{ service }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no services.</p>
+{% endif %}
+{% endblock %}

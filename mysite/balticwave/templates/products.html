@@ -10,12 +10,13 @@
 {% if products %}
 {% for product in products %}
 {% if product.product_thumbnail %}
-<a href="{{ product.id }}"><img class="thumbimg" src="{{ product.product_thumbnail.url }}"></a>
+<a href="{{ product.id }}"><img class="thumbimg" src="{{ product.product_thumbnail.url }}" alt="..."></a>
 {% else %}
 <a href="{{ product.id }}"><img class="thumbimg" src="{% static 'img/no-image.png' %}"></a>
 {% endif %}
 <ul>
     <li>Name: <a href="{{ product.id }}">{{ product.product_name }}</a></li>
+    <li>Brief description: {{ product.short_description }}</li>
     <li>Price: {{ product.price }}€</li>
     <li>Type: {{ product.display_type }}</li>
     <li>City: {{ product.get_city_display }}</li>
@@ -25,23 +26,23 @@
 <hr>
 {% endfor %}
 {% else %}
-<p>There are no listed items at the moment.</p>
+<p>No items matched your chosen filters!.</p>
 {% endif %}
-
+<hr>
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; pirmas</a>
-            <a href="?page={{ page_obj.previous_page_number }}">atgal</a>
+            <a href="?page=1">&laquo; lirst</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
-            {{ page_obj.number }} iš {{ page_obj.paginator.num_pages }}
+            {{ page_obj.number }} out of {{ page_obj.paginator.num_pages }}
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">pirmyn</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">paskutinis &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>

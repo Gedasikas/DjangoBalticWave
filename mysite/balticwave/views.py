@@ -70,7 +70,7 @@ class SellerProductDetailView(LoginRequiredMixin, DetailView):
 
 class ProductByUserCreateView(LoginRequiredMixin, generic.CreateView):
     model = Product
-    fields = ['product_name', 'price', 'description', 'type', 'product_thumbnail', 'city', 'status']
+    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'city', 'status']
     success_url = '/balticwave/myproducts/'
     template_name = 'user_product_form.html'
     def form_valid(self, form):
@@ -79,7 +79,7 @@ class ProductByUserCreateView(LoginRequiredMixin, generic.CreateView):
 
 class ProductByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Product
-    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'status']
+    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'city', 'status']
     success_url = '/balticwave/myproducts/'
     template_name = 'user_product_form.html'
 

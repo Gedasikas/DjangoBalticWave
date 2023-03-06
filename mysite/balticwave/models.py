@@ -2,6 +2,7 @@ from django.db import models
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 from PIL import Image
+from django.urls import reverse
 
 class Product(models.Model):
     product_name = models.CharField('Product name', max_length=200)

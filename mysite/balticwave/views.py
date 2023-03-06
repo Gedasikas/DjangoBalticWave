@@ -23,8 +23,6 @@ def home(request):
     return render(request, 'home.html', context=context)
 
 
-
-
 class ProductListView(generic.ListView):
     queryset = Product.objects.all()
     paginate_by = 10
@@ -56,6 +54,7 @@ class ProductDetailView(generic.DetailView):
         data['number_of_likes'] = likes_connected.number_of_likes()
         data['post_is_liked'] = liked
         return data
+
 
 class SellerProductsListView(LoginRequiredMixin, generic.ListView):
     Model = Product

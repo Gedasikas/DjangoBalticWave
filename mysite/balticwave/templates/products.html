@@ -1,38 +1,45 @@
 {% extends "base.html" %}
+{% block title %}<title>All items</title>{% endblock %}
 {% load static %}
 {% block content %}
 
 <form method="GET" action="{% url 'products' %}">
     {{ form.as_p }}
-    <input type="submit" value="Submit"/>
+    <input type="submit" value="Filter"/>
 </form>
 
-{% if products %}
-{% for product in products %}
-{% if product.product_thumbnail %}
-<a href="{{ product.id }}"><img class="thumbimg" src="{{ product.product_thumbnail.url }}" alt="..."></a>
-{% else %}
-<a href="{{ product.id }}"><img class="thumbimg" src="{% static 'img/no-image.png' %}"></a>
-{% endif %}
-<ul>
-    <li>Name: <a href="{{ product.id }}">{{ product.product_name }}</a></li>
-    <li>Brief description: {{ product.short_description }}</li>
-    <li>Price: {{ product.price }}€</li>
-    <li>Type: {{ product.display_type }}</li>
-    <li>City: {{ product.get_city_display }}</li>
-    <li>Status: {{ product.get_status_display }} </li>
-    <li>Likes: {{ product.number_of_likes }} </li>
-</ul>
-<hr>
-{% endfor %}
-{% else %}
-<p>No items matched your chosen filters!.</p>
-{% endif %}
-<hr>
+<div class="container border" style="margin-top:20px; margin-bottom:20px">
+    {% if products %}
+    <div class="card-columns">
+        {% for product in products %}
+        <div class="card" style="width:350px; height:700px; margin:10px">
+            {% if product.product_thumbnail %}
+            <a href="{{ product.id }}"><img src="{{ product.product_thumbnail.url }}" style="width:340px; height:354px"></a>
+            {% else %}
+            <a href="{{ product.id }}"><img src="{% static 'img/no-image.png' %}" style="width:340px; height:354px"></a>
+            {% endif %}
+            <div class="card-body">
+                <h3 class="text-center"><a href="{{ product.id }}">{{ product.product_name }}</a></h3>
+                <p class="card-text text-center">{{ product.short_description }}</p>
+                <ul class="text-muted">
+                    <li>Price: {{ product.price }}€</li>
+                    <li>Type: {{ product.display_type }}</li>
+                    <li>City: {{ product.get_city_display }}</li>
+                    <li>Status: {{ product.get_status_display }}</li>
+                    <li>Likes: {{ product.number_of_likes }}</li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h3 class="text-center">No items matched your chosen filters!</h3>
+    {% endif %}
+</div>
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; lirst</a>
+            <a href="?page=1">&laquo; first</a>
             <a href="?page={{ page_obj.previous_page_number }}">previous</a>
         {% endif %}
 

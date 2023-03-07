@@ -5,7 +5,7 @@
     <form method="POST" enctype='multipart/form-data'>
         {% csrf_token %}
         <fieldset>
-            <legend>Add a new item</legend>
+            <legend>Add/Update an item</legend>
             {{ form|crispy }}
         </fieldset>
         <div class="form-group">

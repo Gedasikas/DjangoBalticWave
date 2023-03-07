@@ -1,20 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="row">
-    <div class="leftcolumn">
-        <h3>Search for items and services!</h3>
-        <form action="{% url 'search' %}" method="get" class="search-bar">
-            <input name="query" type="text" placeholder="Search...">
-            <button type="submit"><img src="{% static 'img/search.png' %}"></button>
-        </form>
-    </div>
+<div class="container pt-3 " style="margin-top:30px; padding-left: 200px" >
+    <h3 style="padding-left: 150px">Search for items and services!</h3>
+    <form action="{% url 'search' %}" method="get" class="search-bar">
+        <input name="query" type="text" placeholder="Search...">
+        <button type="submit"><img src="{% static 'img/search.png' %}"></button>
+    </form>
 </div>
-<h3>Latest items:</h3>
-{% for latest_prod in latest_prod %}
-<ul>
-    <li><a href="{% url 'product-detail' latest_prod.id %}"> {{ latest_prod }} | {{ latest_prod.insDate }} </a></li>
-<hr>
-</ul>
-{% endfor %}
+
+<div class="container border" style="margin-top:20px; margin-bottom:20px">
+    <h3>Latest items:</h3>
+    {% for product in latest_prod %}
+        <div class="media border p-3" style="margin-top:20px">
+            {% if product.product_thumbnail %}
+            <a href="{% url 'product-detail' product.id %}"><img class="mr-3 mt-3 rounded-circle" style="width:60px;"
+                                            src="{{ product.product_thumbnail.url }}"></a>
+            {% else %}
+            <a href="{% url 'product-detail' product.id %}"><img class="mr-3 mt-3 rounded-circle" style="width:60px;"
+                                            src="{% static 'img/no-image.png' %}"></a>
+            {% endif %}
+            <div class="media-body">
+                <h4><a href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a> <small><i>Posted on: {{ product.insDate }}</i></small></h4>
+                <p>{{ product.short_description}}</p>
+                <p>Price: {{ product.price }}€</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
 {% endblock %}

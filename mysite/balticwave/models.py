@@ -15,6 +15,7 @@ class Product(models.Model):
     product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True, blank=True)
     image1 = models.ImageField('Image 1', upload_to='product_images', null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='blogpost_like')
+    favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     CITY_CHOICES = [
         ('Klaipėda county', (
             ('KLP', 'Klaipėda'),
@@ -58,7 +59,6 @@ class Product(models.Model):
 
     def number_of_likes(self):
         return self.likes.count()
-
     def __str__(self):
         return (f'{self.product_name} | {self.product_seller}')
 

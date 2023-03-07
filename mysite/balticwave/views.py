@@ -128,6 +128,20 @@ def product_like(request, pk):
     return HttpResponseRedirect(reverse('product-detail', args=[str(pk)]))
 
 @login_required
+def favourite_prod_add(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    if product.favourites.filter(id=request.user.id).exists():
+        product.favourites.remove(request.user)
+    else:
+        product.favourites.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required
+def favourite_list(request):
+    new = Product.objects.all().filter(favourites=request.user)
+    return render(request, 'favourites.html', {'new': new})
+
+@login_required
 def advert_list(request):
     username = request.user.username
     product_list = Product.objects.filter(product_seller__username=username)
@@ -159,7 +173,6 @@ def search(request):
     search_results = Product.objects.filter(Q(product_name__icontains=query) | Q(description__icontains=query))
     search_results2 = Service.objects.filter(Q(service_name__icontains=query) | Q(description__icontains=query))
     return render(request, 'search.html', {'products': search_results, 'services': search_results2, 'query': query})
-
 
 
 @csrf_protect

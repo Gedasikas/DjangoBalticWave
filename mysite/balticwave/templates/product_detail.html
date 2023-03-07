@@ -45,36 +45,39 @@
                 <li>Status: {{ product.get_status_display }}</li>
                 <li>Likes: {{ product.number_of_likes }}</li>
             </ul>
+            {% if user.is_authenticated %}
+            <form action="{% url 'product_like' object.id %}" method="POST">
+                {% csrf_token %}
+                {% if post_is_liked %}
+                <button type="submit" name="blogpost_id" value="{{product.id}}">Unlike</button>
+                {% else %}
+                <button type="submit" name="blogpost_id" value="{{product.id}}">Like</button>
+                {% endif %}
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}?next={{request.path}}">Log in to like this item!</a><br>
+            {% endif %}
+            <strong>{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
         </div>
     </div>
 </div>
-{% if user.is_authenticated %}
-<form action="{% url 'product_like' object.id %}" method="POST">
-    {% csrf_token %}
-    {% if post_is_liked %}
-    <button type="submit" name="blogpost_id" value="{{product.id}}">Unlike</button>
-    {% else %}
-    <button type="submit" name="blogpost_id" value="{{product.id}}">Like</button>
-    {% endif %}
-</form>
-{% else %}
-<a href="{% url 'login' %}?next={{request.path}}">Log in to like this item!</a><br>
-{% endif %}
-<strong>{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+
 <br>
 <a href="{% url 'favourite-prod-add' product.id %}">Add to favourites</a>
-<hr>
-<h4>Comments:</h4>
-{% if product.productreview.all %}
-{% for review in product.productreview.all %}
-<hr>
-<strong>{{ review.reviewer }}</strong>, <em>{{ review.date_created}}</em>
-<p>{{ review.content }}</p>
-{% endfor %}
-{% else %}
-<p>There are no comments</p>
+
+<div class="container border" style="margin-top:20px; margin-bottom:20px">
+    <h4>Comments:</h4>
+    {% if product.productreview.all %}
+    {% for review in product.productreview.all %}
+    <hr>
+    <strong>{{ review.reviewer }}</strong>, <em>{{ review.date_created}}</em>
+    <p>{{ review.content }}</p>
+    {% endfor %}
+    {% else %}
+    <p>There are no comments</p>
 
 {% endif %}
+</div>
 {% if user.is_authenticated %}
 <div class="fieldWrapper">
     <hr>
@@ -84,6 +87,7 @@
         {{ form.content }}
         <input type="submit" value="Post">
     </form>
+    {% endif %}
 </div>
-{% endif %}
+
 {% endblock %}

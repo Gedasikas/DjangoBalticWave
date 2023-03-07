@@ -31,9 +31,7 @@
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                Logged in as: {{ user.get_username }}
-                <a/>
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Logged in as: {{ user.get_username }}<a/>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="{% url 'profile' %}"> Update profile</a>
                     <a class="dropdown-item" href="{% url 'logout'%}?next=/balticwave">Log out</a>

@@ -13,7 +13,7 @@ class Product(models.Model):
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
     type = models.ManyToManyField('ProductType')
     product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True, blank=True)
-    image1 = models.ImageField('Image 1', upload_to='product_images', null=True, blank=True)
+    images = models.FileField('Images', upload_to='product_images', null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='blogpost_like')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     CITY_CHOICES = [

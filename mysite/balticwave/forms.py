@@ -1,4 +1,4 @@
-from .models import Profile, Product, ProductReview
+from .models import Profile, Product, ProductReview, Service
 from django import forms
 from django.contrib.auth.models import User
 
@@ -14,7 +14,6 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
-
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -23,7 +22,14 @@ class ProfileUpdateForm(forms.ModelForm):
 class UserProductCreateUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'city', 'status']
+        fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
         widgets = {'product_seller': forms.HiddenInput(), 'insDate': DateInput()}
+
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ('service_name', 'description', 'type', 'service_thumbnail')
+
+
 
 

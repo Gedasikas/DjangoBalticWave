@@ -13,7 +13,12 @@ class Product(models.Model):
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
     type = models.ManyToManyField('ProductType')
     product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True, blank=True)
-    images = models.FileField('Images', upload_to='product_images', null=True, blank=True)
+    image1 = models.ImageField('Image 1', upload_to='product_images', null=True, blank=True)
+    image2 = models.ImageField('Image 2', upload_to='product_images', null=True, blank=True)
+    image3 = models.ImageField('Image 3', upload_to='product_images', null=True, blank=True)
+    image4 = models.ImageField('Image 4', upload_to='product_images', null=True, blank=True)
+    image5 = models.ImageField('Image 5', upload_to='product_images', null=True, blank=True)
+    image6 = models.ImageField('Image 6', upload_to='product_images', null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='blogpost_like')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     CITY_CHOICES = [
@@ -65,11 +70,43 @@ class Product(models.Model):
 class Service(models.Model):
     service_name = models.CharField('Service name', max_length=200)
     service_seller = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    insDate = models.DateTimeField('Instance date', auto_now_add=True)
     description = HTMLField(default='No description')
     type = models.ManyToManyField('ServiceType')
     service_thumbnail = models.ImageField('Thumbnail', upload_to='service_thumbnails', null=True, blank=True)
+    CITY_CHOICES = [
+        ('Klaipėda county', (
+            ('KLP', 'Klaipėda'),
+            ('PL', 'Palanga'),
+            ('NID', 'Nida'),
+        )
+         ),
+        ('Kaunas county', (
+            ('KUN', 'Kaunas'),
+            ('JON', 'Jonava'),
+            ('KĖD', 'Kėdainiai')
+        )
+         ),
+        ('Vilnius county', (
+            ('VIL', 'Vilnius'),
+            ('UKM', 'Ukmergė'),
+            ('ELE', 'Elektrėnai'),
+
+        )
+         ),
+        ('Šiauliai county', (
+            ('ŠL', 'Šiauliai'),
+            ('RAD', 'Radviliškis'),
+            ('NJA', 'Naujoji Akmenė'),
+        )
+         ),
+        ('UN', 'Undefined'),
+    ]
+    city = models.CharField(max_length=3, choices=CITY_CHOICES, help_text='City', default='UN')
+
     def __str__(self):
         return (f'{self.service_name}')
+
 
 class ServiceType(models.Model):
     service_type_name = models.CharField('Type', max_length=50)

@@ -15,13 +15,13 @@
                 </ul>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="la.jpg" alt="Los Angeles">
+                        <img src="{{ product.image1.url }}" style="width:auto; height:400px">
                     </div>
                     <div class="carousel-item">
-                        <img src="chicago.jpg" alt="Chicago">
+                        <img src="{{ product.image2.url }}" style="width:400px; height:400px">
                     </div>
                     <div class="carousel-item">
-                        <img src="ny.jpg" alt="New York">
+                        <img src="{{ product.image3.url }}" style="width:400px; height:400px">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -31,40 +31,49 @@
                     <span class="carousel-control-next-icon"></span>
                 </a>
             </div>
-            {% if product.product_thumbnail %}
-            <a><img src="{{ product.product_thumbnail.url }}" style="width:340px; height:354px"></a>
-            {% else %}
-            <a href="{{ product.id }}"><img src="{% static 'img/no-image.png' %}" style="width:340px; height:354px"></a>
-            {% endif %}
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 border" >
             <ul class="font-weight-bold">
                 <li>Price: {{ product.price }}€</li>
                 <li>Type: {{ product.display_type }}</li>
                 <li>City: {{ product.get_city_display }}</li>
                 <li>Status: {{ product.get_status_display }}</li>
-                <li>Likes: {{ product.number_of_likes }}</li>
             </ul>
+            <h3>Description:</h3>
+            <p>{{ product.description }}</p>
             {% if user.is_authenticated %}
             <form action="{% url 'product_like' object.id %}" method="POST">
                 {% csrf_token %}
                 {% if post_is_liked %}
-                <button type="submit" name="blogpost_id" value="{{product.id}}">Unlike</button>
+                <button type="submit" name="blogpost_id" value="{{product.id}}" class="btn btn-danger">Unlike
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-heart" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                    </svg>
+                </button>
                 {% else %}
-                <button type="submit" name="blogpost_id" value="{{product.id}}">Like</button>
+                <button type="submit" name="blogpost_id" value="{{product.id}}" class="btn btn-outline-danger">Like
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-heart" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                    </svg>
+                </button>
                 {% endif %}
             </form>
             {% else %}
             <a href="{% url 'login' %}?next={{request.path}}">Log in to like this item!</a><br>
             {% endif %}
             <strong>{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+            <a href="{% url 'favourite-prod-add' product.id %}">Add to favourites
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-bookmark-plus" viewBox="0 0 16 16">
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </a>
         </div>
     </div>
 </div>
-
-<br>
-<a href="{% url 'favourite-prod-add' product.id %}">Add to favourites</a>
-
 <div class="container border" style="margin-top:20px; margin-bottom:20px">
     <h4>Comments:</h4>
     {% if product.productreview.all %}
@@ -76,11 +85,10 @@
     {% else %}
     <p>There are no comments</p>
 
-{% endif %}
+    {% endif %}
 </div>
 {% if user.is_authenticated %}
 <div class="fieldWrapper">
-    <hr>
     <h4>Leave a comment:</h4>
     <form action="" method="post">
         {% csrf_token %}

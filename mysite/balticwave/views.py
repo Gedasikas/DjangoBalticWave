@@ -2,7 +2,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.views.generic.edit import FormMixin
-
 from .models import Product, Service
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -10,11 +9,15 @@ from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserUpdateForm, ProfileUpdateForm, ProductReviewForm
+from .forms import UserUpdateForm, ProfileUpdateForm, ProductReviewForm, ServiceForm
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from .filters import ProductFilter
 from django.urls import reverse
+from django.forms import modelformset_factory
+from django.http import HttpResponseRedirect
+
+
 
 def home(request):
     latest_prod = Product.objects.all().order_by('-id')[:5]
@@ -89,7 +92,7 @@ class SellerProductDetailView(LoginRequiredMixin, DetailView):
 
 class ProductByUserCreateView(LoginRequiredMixin, generic.CreateView):
     model = Product
-    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'city', 'status']
+    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
     success_url = '/balticwave/myproducts/'
     template_name = 'user_product_form.html'
     def form_valid(self, form):
@@ -98,7 +101,7 @@ class ProductByUserCreateView(LoginRequiredMixin, generic.CreateView):
 
 class ProductByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Product
-    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'city', 'status']
+    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
     success_url = '/balticwave/myproducts/'
     template_name = 'user_product_form.html'
 

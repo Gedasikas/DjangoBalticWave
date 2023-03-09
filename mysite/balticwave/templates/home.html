@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="container pt-3 " style="margin-top:30px; padding-left: 200px" >
+<div class="container pt-3 " style="margin-top:30px; padding-left: 200px;" >
     <h3 style="padding-left: 150px">Search for items and services!</h3>
     <form action="{% url 'search' %}" method="get" class="search-bar">
         <input name="query" type="text" placeholder="Search...">

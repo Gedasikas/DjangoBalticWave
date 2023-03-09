@@ -6,10 +6,10 @@ class ProductFilter(django_filters.FilterSet):
     product_name = django_filters.CharFilter(lookup_expr='icontains')
     class Meta:
         model = Product
-        fields = {
-            'city': ['exact'],
-            'category': ['exact'],
-            'type': ['exact'],
-            'status': ['exact'],
-
-        }
+        fields = [
+            'product_name',
+            'city',
+            'category',
+            'type',
+            'status',
+        ]

@@ -14,7 +14,8 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from .filters import ProductFilter
 from django.urls import reverse
-from django.forms import modelformset_factory
+from django_filters.views import FilterView
+
 from django.http import HttpResponseRedirect
 
 
@@ -27,11 +28,12 @@ def home(request):
     return render(request, 'home.html', context=context)
 
 
-class ProductListView(generic.ListView):
+class ProductListView(FilterView):
     queryset = Product.objects.all()
     paginate_by = 10
     template_name = 'products.html'
     context_object_name = 'products'
+    filterset_class = ProductFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()

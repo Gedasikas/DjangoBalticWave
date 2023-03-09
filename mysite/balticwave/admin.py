@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Profile, Product, Service, ServiceType, ProductType, ProductReview
-
+from mptt.admin import MPTTModelAdmin
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_name', 'insDate', 'display_type',)
@@ -27,8 +27,6 @@ class ServiceInline(admin.TabularInline):
     can_delete = False
     extra = 0
 
-class ProductReviewAdmin(admin.ModelAdmin):
-    list_display = ('product', 'date_created', 'reviewer', 'content')
 
 
 
@@ -37,4 +35,6 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceType)
 admin.site.register(ProductType)
-admin.site.register(ProductReview, ProductReviewAdmin)
+admin.site.register(ProductReview)
+
+

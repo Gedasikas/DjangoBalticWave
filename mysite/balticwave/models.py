@@ -3,6 +3,9 @@ from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 from PIL import Image
 from django.urls import reverse
+from mptt.models import MPTTModel, TreeForeignKey
+
+
 
 class Product(models.Model):
     product_name = models.CharField('Product name', max_length=200)
@@ -11,7 +14,6 @@ class Product(models.Model):
     short_description = HTMLField('Short description', max_length=200)
     description = HTMLField(default='No description')
     insDate = models.DateTimeField('Instance date', auto_now_add=True)
-    type = models.ManyToManyField('ProductType')
     product_thumbnail = models.ImageField('Thumbnail', upload_to='product_thumbnails', null=True, blank=True)
     image1 = models.ImageField('Image 1', upload_to='product_images', null=True, blank=True)
     image2 = models.ImageField('Image 2', upload_to='product_images', null=True, blank=True)
@@ -21,6 +23,43 @@ class Product(models.Model):
     image6 = models.ImageField('Image 6', upload_to='product_images', null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='blogpost_like')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
+    CATEGORY_CHOICES = [
+        ('UN', 'Undefined'),
+        ('Accesories', (
+        )
+         ),
+        ('Blocks', (
+            ('SIN', 'Single'),
+            ('DUO', 'Double'),
+            ('TRIP', 'Triple +'),
+            ('CL', 'Block with cleat'),
+            ('UNS', 'Unspecified'),
+        )
+         ),
+        ('Navigation', (
+            ('COMP', 'Magnetic/Electronic Compass'),
+            ('RAD', 'Radio station'),
+            ('SEM', 'Sea map')
+        )
+         ),
+        ('Hardware', (
+            ('CLE', 'Cleat'),
+            ('SHA', 'Shackle'),
+            ('WIN', 'Winch'),
+        )
+         ),
+        ('Sails', (
+            ('MAN', 'Main sail'),
+            ('JIB', 'Jib'),
+            ('SPI', 'Spinnaker'),
+            ('GEN', 'Genoa'),
+        )
+         ),
+        ('Maintenance Equipment', (
+            ('PAI', 'Paint'),
+        )
+         )
+    ]
     CITY_CHOICES = [
         ('Klaipėda county', (
             ('KLP', 'Klaipėda'),
@@ -55,17 +94,19 @@ class Product(models.Model):
         ('r', 'Reserved'),
         ('t', 'Sold'),
     )
-
+    type = models.ManyToManyField('ProductType')
+    category = models.CharField(max_length=5, choices=CATEGORY_CHOICES, help_text='Category', default='UN')
     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='a', help_text='Status',)
     city = models.CharField(max_length=3, choices=CITY_CHOICES, help_text='City', default='UN')
 
     def display_type(self):
-        return ', '.join(type.product_type_name for type in self.type.all()[:3])
+        return ' #'.join(type.product_type_name for type in self.type.all()[:5])
 
     def number_of_likes(self):
         return self.likes.count()
     def __str__(self):
         return (f'{self.product_name} | {self.product_seller}')
+
 
 class Service(models.Model):
     service_name = models.CharField('Service name', max_length=200)
@@ -119,7 +160,7 @@ class ProductType(models.Model):
         return self.product_type_name
 
 class ProductReview(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, blank=True, related_name='productreview')
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, null=True, blank=True, related_name='productreview')
     reviewer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     content = models.TextField('Review', max_length=2000)

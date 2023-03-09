@@ -1,13 +1,30 @@
 {% extends "base.html" %}
 {% block title %}<title>All items</title>{% endblock %}
 {% load static %}
+{% load widget_tweaks %}
 {% block content %}
 
-<form method="GET" action="{% url 'products' %}">
-    {{ form.as_p }}
-    <input type="submit" value="Filter"/>
-</form>
-
+{% for category in products.children.all %}
+{{ category }}
+{% endfor %}
+<div class="container border" style="margin-top:20px; margin-bottom:20px">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3>Filters</h3>
+        </div>
+    </div>
+    <form method="GET" action="{% url 'products' %}">
+        <div>
+            {{ filter.form.city.label_tag }}
+            {% render_field filter.form.city class="form-control" %}
+        </div>
+    </form>
+    <form method="GET" action="{% url 'products' %}">
+        {{ form.as_p }}
+        <input type="submit" value="Filter"/>
+    </form>
+</div>
+</div>
 <div class="container border" style="margin-top:20px; margin-bottom:20px">
     {% if products %}
     <div class="card-columns">

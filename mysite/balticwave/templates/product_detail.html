@@ -1,40 +1,18 @@
 {% extends "base.html" %}
 {% block title %}<title>Item detail</title>{% endblock %}
 {% load static %}
+{% load mptt_tags %}
 {% block content %}
 <div class="container border" style="margin-top:20px; margin-bottom:20px">
     <div class="row">
         <div class="col-sm-8">
             <h2>{{ product.product_name }}</h2>
             <h5>Posted by: {{ product.product_seller }} <small><i>Posted on: {{ product.insDate }}</i></small></h5>
-            <div id="demo" class="carousel slide" data-ride="carousel">
-                <ul class="carousel-indicators">
-                    <li data-target="#demo" data-slide-to="0" class="active"></li>
-                    <li data-target="#demo" data-slide-to="1"></li>
-                    <li data-target="#demo" data-slide-to="2"></li>
-                </ul>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="{{ product.image1.url }}" style="width:auto; height:400px">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ product.image2.url }}" style="width:400px; height:400px">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ product.image3.url }}" style="width:400px; height:400px">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </a>
-                <a class="carousel-control-next" href="#demo" data-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </a>
-            </div>
         </div>
         <div class="col-sm-4 border" >
             <ul class="font-weight-bold">
                 <li>Price: {{ product.price }}€</li>
+                <li>Category: {{ product.get_category_display }}</li>
                 <li>Type: {{ product.display_type }}</li>
                 <li>City: {{ product.get_city_display }}</li>
                 <li>Status: {{ product.get_status_display }}</li>
@@ -84,7 +62,6 @@
     {% endfor %}
     {% else %}
     <p>There are no comments</p>
-
     {% endif %}
 </div>
 {% if user.is_authenticated %}

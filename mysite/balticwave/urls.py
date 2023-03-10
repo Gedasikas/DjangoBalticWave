@@ -7,7 +7,7 @@ urlpatterns = [
     path('products/', views.ProductListView.as_view(), name='products'),
     path('products/<int:pk>', views.ProductDetailView.as_view(), name='product-detail'),
     path('product-like/<int:pk>', views.product_like, name="product_like"),
-    path('favouriteproducts/<int:pk>', views.favourite_prod_add, name='favourite-prod-add'),
+    path('favouriteproducts/<int:id>', views.favourite_prod_add, name='favourite-prod-add'),
 
     path('services/', views.ServiceListView.as_view(), name='services'),
     path('services/<int:pk>', views.ServiceDetailView.as_view(), name='service-detail'),

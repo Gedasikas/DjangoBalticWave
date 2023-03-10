@@ -22,7 +22,7 @@
             {% endif %}
             <div class="media-body">
                 <h4><a href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a> <small><i>Posted on: {{ product.insDate }}</i></small></h4>
-                <p>{{ product.short_description}}</p>
+                <p>{{ product.short_description }}</p>
                 <p>Price: {{ product.price }}€</p>
             </div>
         </div>

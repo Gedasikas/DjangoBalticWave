@@ -8,7 +8,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 
 class Product(models.Model):
-    product_name = models.CharField('Product name', max_length=200)
+    product_name = models.CharField('Product name', max_length=40)
     product_seller = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True)
     price = models.FloatField('Price', null=True, blank=True, default=0)
     short_description = HTMLField('Short description', max_length=200)

@@ -3,6 +3,6 @@
 {% block content %}
 {% for product in new %}
 {{ product }}
-<a href="{% url 'favourite-prod-add' product.id"> Remove </a>
+<a href="{% url 'favourite-prod-add' product.id %}"> Remove </a>
 {% endfor %}
 {% endblock %}

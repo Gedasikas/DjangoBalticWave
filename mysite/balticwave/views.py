@@ -133,8 +133,8 @@ def product_like(request, pk):
     return HttpResponseRedirect(reverse('product-detail', args=[str(pk)]))
 
 @login_required
-def favourite_prod_add(request, pk):
-    product = get_object_or_404(Product, id=pk)
+def favourite_prod_add(request, id):
+    product = get_object_or_404(Product, id=id)
     if product.favourites.filter(id=request.user.id).exists():
         product.favourites.remove(request.user)
     else:

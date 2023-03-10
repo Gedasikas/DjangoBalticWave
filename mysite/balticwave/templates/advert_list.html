@@ -1,29 +1,56 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<h3>Products</h3>
-{% if product_list %}
-<ul>
-    {% for product in product_list %}
-    <li>
-        <a href="{% url 'my-update-product' product.id %}">{{ product }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>There are no products.</p>
-{% endif %}
-
-<h3>Services:</h3>
-{% if service_list %}
-<ul>
-    {% for service in service_list %}
-    <li>
-        <a href="{% url 'service-detail'  service.pk %}">{{ service }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>There are no services.</p>
-{% endif %}
+<div class="container" style="margin-top:20px; margin-bottom:20px">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>My products:</h3>
+            {% if product_list %}
+            {% for product in product_list %}
+            <div class="media border p-3" style="margin-top:20px">
+                {% if product.product_thumbnail %}
+                <a href="{% url 'product-detail' product.id %}"><img class="mr-3 mt-3 rounded-circle"
+                                                                     style="width:60px;"
+                                                                     src="{{ product.product_thumbnail.url }}"></a>
+                {% else %}
+                <a href="{% url 'product-detail' product.id %}"><img class="mr-3 mt-3 rounded-circle"
+                                                                     style="width:60px;"
+                                                                     src="{% static 'img/no-image.png' %}"></a>
+                {% endif %}
+                <div class="media-body">
+                    <h4><a href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a> <small><i>Posted
+                        on: {{ product.insDate }}</i></small></h4>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>You have not posted any products.</p>
+            {% endif %}
+        </div>
+        <div class="col-sm-6">
+            <h3>My services:</h3>
+            {% if service_list %}
+            {% for service in service_list %}
+            <div class="media border p-3" style="margin-top:20px">
+                {% if service.service_thumbnail %}
+                <a href="#"><img class="mr-3 mt-3 rounded-circle"
+                                                                     style="width:60px;"
+                                                                     src="{{ product.product_thumbnail.url }}"></a>
+                {% else %}
+                <a href="#"><img class="mr-3 mt-3 rounded-circle"
+                                                                     style="width:60px;"
+                                                                     src="{% static 'img/no-image.png' %}"></a>
+                {% endif %}
+                <div class="media-body">
+                    <h4><a href="#">{{ service.service_name }}</a> <small><i>Posted
+                        on: {{ service.insDate }}</i></small></h4>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>You have not posted any services.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

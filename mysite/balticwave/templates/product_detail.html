@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}<title>Item detail</title>{% endblock %}
 {% load static %}
 {% load mptt_tags %}
 {% block content %}
 <div class="container border" style="margin-top:20px; margin-bottom:20px">
+    {% if user.is_authenticated %}
     <a style="float: right;" href="{% url 'favourite-prod-add' product.id %}">Add to favourites
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
              class="bi bi-bookmark-plus" viewBox="0 0 16 16">
@@ -11,6 +11,9 @@
             <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4z"/>
         </svg>
     </a>
+    {% else %}
+    <a style="float: right;" href="{% url 'login' %}?next={{request.path}}">Log in to save this item!</a><br>
+    {% endif %}
     <h2>{{ product.product_name }}</h2>
     <h5>Posted by: {{ product.product_seller }} <small><i>Posted on: {{ product.insDate }}</i></small></h5>
     <div class="row">
@@ -103,7 +106,6 @@
 </div>
 
 
-
 <div class="container border" style="margin-top:20px; margin-bottom:20px">
     <h4>Comments:</h4>
     {% if product.productreview.all %}
@@ -116,15 +118,17 @@
     <p>There are no comments</p>
     {% endif %}
 </div>
-{% if user.is_authenticated %}
-<div class="fieldWrapper">
-    <h4>Leave a comment:</h4>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.content }}
-        <input type="submit" value="Post">
-    </form>
-    {% endif %}
+<div class="container border" style="margin-top:20px; margin-bottom:20px">
+    {% if user.is_authenticated %}
+    <div class="fieldWrapper">
+        <h4>Leave a comment:</h4>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.content }}
+            <input type="submit" value="Post">
+        </form>
+        {% endif %}
+    </div>
 </div>
 
 {% endblock %}

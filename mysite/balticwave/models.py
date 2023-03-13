@@ -21,7 +21,7 @@ class Product(models.Model):
     image4 = models.ImageField('Image 4', upload_to='product_images', null=True, blank=True)
     image5 = models.ImageField('Image 5', upload_to='product_images', null=True, blank=True)
     image6 = models.ImageField('Image 6', upload_to='product_images', null=True, blank=True)
-    likes = models.ManyToManyField(User, related_name='blogpost_like')
+    likes = models.ManyToManyField(User, related_name='productlike')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     CATEGORY_CHOICES = [
         ('UN', 'Undefined'),
@@ -29,9 +29,9 @@ class Product(models.Model):
         )
          ),
         ('Blocks', (
-            ('SIN', 'Single'),
-            ('DUO', 'Double'),
-            ('TRIP', 'Triple +'),
+            ('SIN', 'Single block'),
+            ('DUO', 'Double block'),
+            ('TRIP', 'Triple+ block'),
             ('CL', 'Block with cleat'),
             ('UNS', 'Unspecified'),
         )
@@ -123,40 +123,21 @@ class Service(models.Model):
     image6 = models.ImageField('Image 6', upload_to='product_images', null=True, blank=True)
     CATEGORY_CHOICES = [
         ('UN', 'Undefined'),
-        ('Accesories', (
+        ('Transportation', (
+            ('YA', 'Yacht'),
+            ('MB', 'Motor boat')
         )
          ),
-        ('Blocks', (
-            ('SIN', 'Single'),
-            ('DUO', 'Double'),
-            ('TRIP', 'Triple +'),
-            ('CL', 'Block with cleat'),
-            ('UNS', 'Unspecified'),
+        ('Refurbishment', (
+            ('DE', 'Deck'),
+            ('IN', 'Inside')
         )
          ),
-        ('Navigation', (
-            ('COMP', 'Magnetic/Electronic Compass'),
-            ('RAD', 'Radio station'),
-            ('SEM', 'Sea map')
+        ('Storage', (
+            ('SAI', 'Sailboat'),
+            ('INV', 'Inventory')
         )
          ),
-        ('Hardware', (
-            ('CLE', 'Cleat'),
-            ('SHA', 'Shackle'),
-            ('WIN', 'Winch'),
-        )
-         ),
-        ('Sails', (
-            ('MAN', 'Main sail'),
-            ('JIB', 'Jib'),
-            ('SPI', 'Spinnaker'),
-            ('GEN', 'Genoa'),
-        )
-         ),
-        ('Maintenance Equipment', (
-            ('PAI', 'Paint'),
-        )
-         )
     ]
     CITY_CHOICES = [
         ('Klaipėda county', (
@@ -188,6 +169,7 @@ class Service(models.Model):
     ]
     city = models.CharField(max_length=3, choices=CITY_CHOICES, help_text='City', default='UN')
     category = models.CharField(max_length=5, choices=CATEGORY_CHOICES, help_text='Category', default='UN')
+
     def display_type(self):
         return ' #'.join(type.service_type_name for type in self.type.all()[:5])
     def __str__(self):

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% block title %}<title>All items</title>{% endblock %}
 {% load static %}
 {% load widget_tweaks %}
 {% block content %}
@@ -38,9 +37,9 @@
         {% for product in products %}
         <div class="card" style="width:341px; height:700px; margin:10px">
             {% if product.product_thumbnail %}
-            <a href="{{ product.id }}"><img src="{{ product.product_thumbnail.url }}" style="width:340px; height:354px"></a>
+            <a href="{{ product.id }}"><img src="{{ product.product_thumbnail.url }}" style="width:339px; height:354px"></a>
             {% else %}
-            <a href="{{ product.id }}"><img src="{% static 'img/no-image.png' %}" style="width:340px; height:354px"></a>
+            <a href="{{ product.id }}"><img src="{% static 'img/no-image.png' %}" style="width:339px; height:354px"></a>
             {% endif %}
             <div class="card-body">
                 <h3 class="text-center"><a href="{{ product.id }}">{{ product.product_name }}</a></h3>

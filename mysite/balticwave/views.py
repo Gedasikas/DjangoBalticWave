@@ -132,6 +132,8 @@ def product_like(request, pk):
         post.likes.add(request.user)
     return HttpResponseRedirect(reverse('product-detail', args=[str(pk)]))
 
+
+
 @login_required
 def favourite_prod_add(request, id):
     product = get_object_or_404(Product, id=id)

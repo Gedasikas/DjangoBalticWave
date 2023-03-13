@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 <div class="container pt-3 " style="margin-top:30px; padding-left: 200px;">
-    <h3 style="padding-left: 150px">Search again?</h3>
+    <h3 style="padding-left: 250px">Search again?</h3>
     <form action="{% url 'search' %}" method="get" class="search-bar">
         <input name="query" type="text" placeholder="Search...">
         <button type="submit"><img src="{% static 'img/search.png' %}"></button>
@@ -42,16 +42,16 @@
             {% for service in services %}
             <div class="media border p-3" style="margin-top:20px">
                 {% if service.service_thumbnail %}
-                <a href="#"><img class="mr-3 mt-3 img-thumbnail"
+                <a href="{% url 'service-detail' service.id %}"><img class="mr-3 mt-3 img-thumbnail"
                                  style="width:60px;"
                                  src="{{ service.service_thumbnail.url }}"></a>
                 {% else %}
-                <a href="#"><img class="mr-3 mt-3 img-thumbnail"
+                <a href="{% url 'service-detail' service.id %}"><img class="mr-3 mt-3 img-thumbnail"
                                  style="width:60px;"
                                  src="{% static 'img/no-image.png' %}"></a>
                 {% endif %}
                 <div class="media-body">
-                    <h4><a href="#">{{ service.service_name }}</a> <small><i>Posted
+                    <h4><a href="{% url 'service-detail' service.id %}">{{ service.service_name }}</a> <small><i>Posted
                         on: {{ service.insDate }}</i></small></h4>
                 </div>
             </div>

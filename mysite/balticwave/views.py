@@ -22,8 +22,10 @@ from django.http import HttpResponseRedirect
 
 def home(request):
     latest_prod = Product.objects.all().order_by('-id')[:5]
+    latest_service = Service.objects.all().order_by('-id')[:5]
     context = {
     'latest_prod': latest_prod,
+    'latest_service': latest_service,
     }
     return render(request, 'home.html', context=context)
 

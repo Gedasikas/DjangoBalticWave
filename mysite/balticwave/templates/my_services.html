@@ -1,15 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>My services</h1>
-{% if myservices %}
-<ul>
+{% load static %}
+<div class="container" style="margin-top:20px; margin-bottom:20px">
+    <h1>My services</h1>
+    {% if myservices %}
     {% for service in myservices %}
-    <li>
-        <a href="{% url 'my-service' service.pk %}">{{ service }}</a>
-    </li>
+        <div class="media border p-3" style="margin-top:20px;">
+            {% if service.service_thumbnail %}
+            <a href="{{ service.pk }}"><img class="mr-3 mt-3 img-thumbnail" style="width:60px;"
+                                            src="{{ service.service_thumbnail.url }}"></a>
+            {% else %}
+            <a href="{{ service.pk }}"><img class="mr-3 mt-3 img-thumbnail" style="width:60px;"
+                                            src="{% static 'img/no-image.png' %}"></a>
+            {% endif %}
+            <div class="media-body">
+                <h4><a href="{{ service.pk }}">{{ service.service_name }}</a> <small><i>Posted on: {{ service.insDate }}</i></small></h4>
+                <a href="{% url 'my-update-service' service.id %}">Update</a>
+                <a href="{% url 'my-delete-service' service.id %}">Delete</a>
+            </div>
+        </div>
     {% endfor %}
-</ul>
-{% else %}
-<p>You have no providing services at the moment.</p>
+    {% else %}
+    <p>You have no providing services at the moment.</p>
 {% endif %}
+</div>
 {% endblock %}

@@ -9,16 +9,16 @@
             {% for product in product_list %}
             <div class="media border p-3" style="margin-top:20px">
                 {% if product.product_thumbnail %}
-                <a href="{% url 'product-detail' product.id %}"><img class="mr-3 mt-3 img-thumbnail"
+                <a href="{% url 'my-product' product.id %}"><img class="mr-3 mt-3 img-thumbnail"
                                                                      style="width:60px;"
                                                                      src="{{ product.product_thumbnail.url }}"></a>
                 {% else %}
-                <a href="{% url 'product-detail' product.id %}"><img class="mr-3 mt-3 img-thumbnail"
+                <a href="{% url 'my-product' product.id %}"><img class="mr-3 mt-3 img-thumbnail"
                                                                      style="width:60px;"
                                                                      src="{% static 'img/no-image.png' %}"></a>
                 {% endif %}
                 <div class="media-body">
-                    <h4><a href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a> <small><i>Posted
+                    <h4><a href="{% url 'my-product' product.id %}">{{ product.product_name }}</a> <small><i>Posted
                         on: {{ product.insDate }}</i></small></h4>
                     <button><a href="{% url 'my-update-product' product.id %}">Update</a> </button>
                 </div>
@@ -34,16 +34,16 @@
             {% for service in service_list %}
             <div class="media border p-3" style="margin-top:20px">
                 {% if service.service_thumbnail %}
-                <a href="#"><img class="mr-3 mt-3 img-thumbnail"
+                <a href="{% url 'my-service' service.id %}"><img class="mr-3 mt-3 img-thumbnail"
                                                                      style="width:60px;"
                                                                      src="{{ service.service_thumbnail.url }}"></a>
                 {% else %}
-                <a href="#"><img class="mr-3 mt-3 img-thumbnail"
+                <a href="{% url 'my-service' service.id %}"><img class="mr-3 mt-3 img-thumbnail"
                                                                      style="width:60px;"
                                                                      src="{% static 'img/no-image.png' %}"></a>
                 {% endif %}
                 <div class="media-body">
-                    <h4><a href="#">{{ service.service_name }}</a> <small><i>Posted
+                    <h4><a href="{% url 'my-service' service.id %}">{{ service.service_name }}</a> <small><i>Posted
                         on: {{ service.insDate }}</i></small></h4>
                     <button><a href="{% url 'my-update-service' service.id %}">Update</a> </button>
                 </div>

@@ -9,10 +9,10 @@ from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserUpdateForm, ProfileUpdateForm, ProductReviewForm, ServiceForm
+from .forms import UserUpdateForm, ProfileUpdateForm, ProductReviewForm, UserServiceCreateUpdateForm
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
-from .filters import ProductFilter
+from .filters import ProductFilter, ServiceFilter
 from django.urls import reverse
 from django_filters.views import FilterView
 
@@ -94,7 +94,7 @@ class SellerProductDetailView(LoginRequiredMixin, DetailView):
 
 class ProductByUserCreateView(LoginRequiredMixin, generic.CreateView):
     model = Product
-    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
+    fields = ['product_name', 'price', 'short_description', 'description', 'category', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
     success_url = '/balticwave/myproducts/'
     template_name = 'user_product_form.html'
     def form_valid(self, form):
@@ -103,7 +103,7 @@ class ProductByUserCreateView(LoginRequiredMixin, generic.CreateView):
 
 class ProductByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Product
-    fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
+    fields = ['product_name', 'price', 'short_description', 'description', 'category', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
     success_url = '/balticwave/myproducts/'
     template_name = 'user_product_form.html'
 
@@ -156,10 +156,12 @@ def advert_list(request):
     }
     return render(request, 'advert_list.html', context)
 
-class ServiceListView(generic.ListView):
+class ServiceListView(FilterView):
     model = Service
     template_name = 'services.html'
     context_object_name = 'services'
+    filterset_class = ServiceFilter
+    paginate_by = 10
 
 class ServiceDetailView(generic.DetailView):
     model = Service
@@ -173,6 +175,39 @@ class SellerServiceListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Service.objects.filter(service_seller=self.request.user)
 
+class SellerServiceDetailView(LoginRequiredMixin, DetailView):
+    model = Service
+    template_name = 'my_service.html'
+    context_object_name = 'service'
+
+class ServiceByUserCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Service
+    fields = ('service_name', 'description', 'category', 'type', 'service_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6')
+    success_url = '/balticwave/myservices/'
+    template_name = 'user_service_form.html'
+    def form_valid(self, form):
+        form.instance.service_seller = self.request.user
+        return super().form_valid(form)
+class ServiceByUserUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Service
+    fields = ('service_name', 'description', 'category', 'type', 'service_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6')
+    success_url = '/balticwave/myservices/'
+    template_name = 'user_service_form.html'
+    def form_valid(self, form):
+        form.instance.service_seller = self.request.user
+        return super().form_valid(form)
+    def test_func(self):
+        service = self.get_object()
+        return self.request.user == service.service_seller
+class ServiceByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Service
+    success_url = '/balticwave/myservices/'
+    template_name = 'user_service_delete.html'
+    context_object_name = 'service'
+
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.service_seller
 def search(request):
     query = request.GET.get('query')
     search_results = Product.objects.filter(Q(product_name__icontains=query) | Q(description__icontains=query))

@@ -15,6 +15,7 @@
                 {{ filter.form.category.label_tag }}
                 {% render_field filter.form.category class="form-control" %}
                 {{ filter.form.price.label_tag }}
+                <p>(min-max)</p>
                 {% render_field filter.form.price class="form-control" %}
             </div>
             <div class="col-sm-6">
@@ -29,11 +30,13 @@
         </div>
     </div>
 </form>
+
 <div class="container" style="margin-top:20px; margin-bottom:20px">
+    <h3>Available items:</h3>
     {% if products %}
     <div class="card-columns">
         {% for product in products %}
-        <div class="card" style="width:350px; height:700px; margin:10px">
+        <div class="card" style="width:341px; height:700px; margin:10px">
             {% if product.product_thumbnail %}
             <a href="{{ product.id }}"><img src="{{ product.product_thumbnail.url }}" style="width:340px; height:354px"></a>
             {% else %}
@@ -57,6 +60,7 @@
     <h3 class="text-center">No items matched your chosen filters!</h3>
     {% endif %}
 </div>
+<div class="container" style="margin-top:20px; margin-bottom:20px; text-align:center">
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
@@ -72,5 +76,6 @@
             <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
+</div>
 </div>
 {% endblock %}

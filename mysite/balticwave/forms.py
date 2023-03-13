@@ -22,13 +22,14 @@ class ProfileUpdateForm(forms.ModelForm):
 class UserProductCreateUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['product_name', 'price', 'short_description', 'description', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
+        fields = ['product_name', 'price', 'short_description', 'description', 'category', 'type', 'product_thumbnail', 'image1', 'image2', 'image3', 'image4', 'image5', 'image6', 'city', 'status']
         widgets = {'product_seller': forms.HiddenInput(), 'insDate': DateInput()}
 
-class ServiceForm(forms.ModelForm):
+class UserServiceCreateUpdateForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ('service_name', 'description', 'type', 'service_thumbnail')
+        fields = ('service_name', 'description', 'category', 'type', 'service_thumbnail')
+        widgets = {'service_seller': forms.HiddenInput(), 'insDate': DateInput()}
 
 
 

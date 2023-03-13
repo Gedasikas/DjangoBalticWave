@@ -115,6 +115,49 @@ class Service(models.Model):
     description = HTMLField(default='No description')
     type = models.ManyToManyField('ServiceType')
     service_thumbnail = models.ImageField('Thumbnail', upload_to='service_thumbnails', null=True, blank=True)
+    image1 = models.ImageField('Image 1', upload_to='product_images', null=True, blank=True)
+    image2 = models.ImageField('Image 2', upload_to='product_images', null=True, blank=True)
+    image3 = models.ImageField('Image 3', upload_to='product_images', null=True, blank=True)
+    image4 = models.ImageField('Image 4', upload_to='product_images', null=True, blank=True)
+    image5 = models.ImageField('Image 5', upload_to='product_images', null=True, blank=True)
+    image6 = models.ImageField('Image 6', upload_to='product_images', null=True, blank=True)
+    CATEGORY_CHOICES = [
+        ('UN', 'Undefined'),
+        ('Accesories', (
+        )
+         ),
+        ('Blocks', (
+            ('SIN', 'Single'),
+            ('DUO', 'Double'),
+            ('TRIP', 'Triple +'),
+            ('CL', 'Block with cleat'),
+            ('UNS', 'Unspecified'),
+        )
+         ),
+        ('Navigation', (
+            ('COMP', 'Magnetic/Electronic Compass'),
+            ('RAD', 'Radio station'),
+            ('SEM', 'Sea map')
+        )
+         ),
+        ('Hardware', (
+            ('CLE', 'Cleat'),
+            ('SHA', 'Shackle'),
+            ('WIN', 'Winch'),
+        )
+         ),
+        ('Sails', (
+            ('MAN', 'Main sail'),
+            ('JIB', 'Jib'),
+            ('SPI', 'Spinnaker'),
+            ('GEN', 'Genoa'),
+        )
+         ),
+        ('Maintenance Equipment', (
+            ('PAI', 'Paint'),
+        )
+         )
+    ]
     CITY_CHOICES = [
         ('Klaipėda county', (
             ('KLP', 'Klaipėda'),
@@ -144,7 +187,9 @@ class Service(models.Model):
         ('UN', 'Undefined'),
     ]
     city = models.CharField(max_length=3, choices=CITY_CHOICES, help_text='City', default='UN')
-
+    category = models.CharField(max_length=5, choices=CATEGORY_CHOICES, help_text='Category', default='UN')
+    def display_type(self):
+        return ' #'.join(type.service_type_name for type in self.type.all()[:5])
     def __str__(self):
         return (f'{self.service_name}')
 

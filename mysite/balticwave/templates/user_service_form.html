@@ -1,8 +1,18 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="images" multiple>
-        <button>Upload</button>
-    </form>
+<div class="container" style="margin-top:20px; margin-bottom:20px">
+    <div>
+        <form method="POST" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <fieldset>
+                <legend>Add/Update service</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock content %}

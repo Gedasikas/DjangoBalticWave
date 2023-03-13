@@ -5,7 +5,7 @@
 <ul>
     {% for service in myservices %}
     <li>
-        <a href="{% url 'service-detail' service.pk %}">{{ service }}</a>
+        <a href="{% url 'my-service' service.pk %}">{{ service }}</a>
     </li>
     {% endfor %}
 </ul>

@@ -11,7 +11,7 @@
 <p>You do not have permission to access this information, please log in.</p>
 {% endif %}
 {% endif %}
-
+<div class="container"  style="margin-top:20px; margin-bottom:20px;">
 <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
     <table>
@@ -29,5 +29,5 @@
 </form>
 
 <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
-
+</div>
 {% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{{ service }}
+<a href="{% url 'my-update-service' service.id %}">Update</a>
+<a href="{% url 'my-delete-service' service.id %}">Delete</a>
+{% endblock %}

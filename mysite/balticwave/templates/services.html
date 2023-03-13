@@ -1,19 +1,51 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 {% block content %}
-{% if services %}
-{% for service in services %}
-<ul>
-    {% if service.service_thumbnail %}
-    <img src="{{ service.service_thumbnail.url }}">
+<form method="GET" action="{% url 'services' %}">
+    <div class="container" style="margin-top:20px; margin-bottom:20px;">
+        <h3>Filters</h3>
+        <div class="row">
+            <div class="col-sm-6">
+                {{ filter.form.service_name.label_tag }}
+                {% render_field filter.form.service_name class="form-control" %}
+                {{ filter.form.city.label_tag }}
+                {% render_field filter.form.city class="form-control" %}
+                {{ filter.form.category.label_tag }}
+                {% render_field filter.form.category class="form-control" %}
+            </div>
+            <div class="col-sm-6">
+                {{ filter.form.type.label_tag }}
+                {% render_field filter.form.type class="form-control" %}
+                <br>
+                <button type="submit" class="btn btn-primary"> Filter</button>
+                <button><a href="{% url 'services' %}">Reset all filters</a></button>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="container" style="margin-top:20px; margin-bottom:20px">
+    {% if services %}
+    <div class="card-columns">
+        {% for service in services %}
+        <div class="card" style="width:341px; height:500px; margin:10px">
+            {% if service.service_thumbnail %}
+            <a href="{{ service.id }}"><img src="{{ service.service_thumbnail.url }}" style="width:340px; height:354px"></a>
+            {% else %}
+            <a href="{{ service.id }}"><img src="{% static 'img/no-image.png' %}" style="width:340px; height:354px"></a>
+            {% endif %}
+            <div class="card-body">
+                <h3 class="text-center"><a href="{{ service.id }}">{{ service.service_name }}</a></h3>
+                <ul class="text-muted">
+                    <li>Type: {{ service.display_type }}</li>
+                    <li>City: {{ service.get_city_display }}</li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     {% else %}
-    <img src="{% static 'img/no-image.png' %}">
+    <h3 class="text-center">No services matched your chosen filters!</h3>
     {% endif %}
-    <li><a href="{{ service.id }}">{{ service }}</a></li>
-</ul>
-{% endfor %}
-<hr>
-{% else %}
-<p>There are no providing services at the moment.</p>
-{% endif %}
+</div>
 {% endblock %}

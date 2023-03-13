@@ -13,11 +13,12 @@
     {% block title %}<title>BalticWave</title>{% endblock %}
 </head>
 <body>
-<div class="jumbotron text-center" style="margin-bottom:0; height: 200px; background-image: linear-gradient(#005DFF, #FFFFFF);">
+<div class="jumbotron text-center"
+     style="margin-bottom:0; height: 200px; background-image: linear-gradient(#005DFF, #FFFFFF);">
     <h1>BalticWave</h1>
     <h4>Welcome!</h4>
 </div>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark" >
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <ul class="navbar-nav">
         <li class="nav-item">
             <a href="{% url 'home' %}" class="nav-link">Home</a>
@@ -29,13 +30,6 @@
             <a href="{% url 'services' %}" class="nav-link">All current services</a>
         </li>
         {% if user.is_authenticated %}
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Logged in as: {{ user.get_username }}<a/>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'profile' %}"> Update profile</a>
-                    <a class="dropdown-item" href="{% url 'logout'%}?next=/balticwave">Log out</a>
-                </div>
-        </li>
         <li class="nav-item"><a href="{% url 'favourite-list' %}" class="nav-link">
             Favourites</a>
         </li>
@@ -44,10 +38,23 @@
                 My adverts
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="{% url 'advert-list' %}">All</a>
-                <a class="dropdown-item" href="{% url 'my-products' %}">My items</a>
-                <a class="dropdown-item" href="{% url 'my-services' %}">My services</a>
+                <a class="dropdown-item font-weight-bold" href="{% url 'advert-list' %}">All</a>
+                <a class="dropdown-item font-weight-bold" href="{% url 'my-products' %}">My items</a>
+                <ul>
+                    <a class="dropdown-item" href="{% url 'my-new-product' %}">+New item advert</a>
+                </ul>
+                <a class="dropdown-item font-weight-bold" href="{% url 'my-services' %}">My services</a>
+                <ul>
+                    <a class="dropdown-item" href="{% url 'my-new-service' %}">+New service advert</a>
+                </ul>
             </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Logged in as: {{ user.get_username }}<a/>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'profile' %}"> Update profile</a>
+                    <a class="dropdown-item" href="{% url 'logout'%}?next=/balticwave">Log out</a>
+                </div>
         </li>
         {% else %}
         <li class="nav-item">
@@ -61,7 +68,7 @@
 </nav>
 {% block content %}{% endblock %}
 <div class="jumbotron text-center" style="margin-bottom:0">
-  <p>Footer</p>
+    <p>Footer</p>
 </div>
 </body>
 

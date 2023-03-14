@@ -100,11 +100,10 @@
             {% else %}
             <a href="{% url 'login' %}?next={{request.path}}">Log in to like this item!</a><br>
             {% endif %}
-            <strong>{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+            <strong> Total: {{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
         </div>
     </div>
 </div>
-
 
 <div class="container border" style="margin-top:20px; margin-bottom:20px">
     <h4>Comments:</h4>

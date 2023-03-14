@@ -118,6 +118,7 @@
     <p>There are no comments</p>
     {% endif %}
 </div>
+{% if user.is_authenticated %}
 <div class="container border" style="margin-top:20px; margin-bottom:20px">
     {% if user.is_authenticated %}
     <div class="fieldWrapper">
@@ -130,5 +131,6 @@
         {% endif %}
     </div>
 </div>
+{% endif %}
 
 {% endblock %}
